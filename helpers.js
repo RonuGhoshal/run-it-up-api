@@ -56,7 +56,6 @@ export const buildPrompt = ({
     }
   }
 
-
   return `
       You are a running coach creating a structured training plan. Your response must be a valid JSON object following the exact structure specified below.
       
@@ -69,11 +68,13 @@ export const buildPrompt = ({
       - Weeks Until Race: ${weeksUntilRace}
   
       **Training Plan Guidelines:**
-      1. Consider the current date and the race date when providing a plan.
-      2. Weekly mileage should not exceed 110% of the previous week.
-      3. For any given week, the total mileage should not exceed ${getMaximumWeeklyMileage()}.
-      4. Do not recommend any runs that are more than ${race_distance * 1.1} miles.
-      5. For races longer than 6.3 miles, include a tapering period 1-2 weeks before.
+      1. Weekly mileage should not exceed 110% of the previous week. This is mandatory.
+      2. For any given week, the total mileage should not exceed ${getMaximumWeeklyMileage()}. This is mandatory.
+      3. In the week that occurs 2-3 weeks before the race, a user must have at least one long run equal to or greater than ${race_distance * 0.8} miles. This is mandatory.
+      4. Do not recommend any runs that are more than ${race_distance * 1.1} miles. This is mandatory.
+      5. Make sure to include "Race Day" -  where the distance is ${race_distance} miles - in the final week. This is mandatory.
+      6. Make sure to calculate "Total Mileage" correctly for each week. Total mileage is the sum of all run distances for that week. This is mandatory.
+
       
       **Required Response Format:**
       Respond with a JSON object that strictly follows this structure (ignoring newline special charactesr). The JSON object should NOT have any comments or unparseable characters:
